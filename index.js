@@ -55,7 +55,7 @@ app.get('/api/persons/:id', (req, res, next) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndDelete(req.params.id)
-    .then(result => {
+    .then(() => {
       res.status(204).end()
     })
     .catch(error => next(error))
@@ -85,8 +85,8 @@ app.put('/api/persons/:id', (req, res, next) => {
   }
 
   Person.findByIdAndUpdate(
-    req.params.id, 
-    person, 
+    req.params.id,
+    person,
     { new: true, runValidators: true, context: 'query' }
   )
     .then(updatedPerson => {
@@ -109,7 +109,7 @@ const errorHandler = (error, request, response, next) => {
   } else if (error.name === 'ValidationError') {
     return response.status(400).send({ error: error.message })
   }
-  
+
   next(error)
 }
 
